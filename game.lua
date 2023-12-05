@@ -17,13 +17,23 @@ function love.load()
   p2 = {
     image = love.graphics.newImage('sprites/P2_Left.png'),
     x = 350,
-    y = 50
+    y = 50,
+    draw = function(self)
+      love.graphics.draw(self.image, self.x, self.y)
+    end  
   }
 
   p1 = {
     image = love.graphics.newImage('sprites/P1_Right.png'),
     x = 100,
-    y = 50
+    y = 50,
+    draw = function(self)
+      if idleCount >= 4 then
+        love.graphics.draw(p1_idleFrames[math.floor(currentFrame)], p1.x, p1.y)
+      else
+        love.graphics.draw(self.image, self.x, self.y)
+      end
+    end
   }
 end
 
@@ -38,25 +48,25 @@ function love.update(dt)
     end
   end
   LuaReload.Monitor()
-  if love.keyboard.isDown("right") then
+  if love.keyboard.isDown("right", "d") then
     p1.x = p1.x + 300 * dt
     showHelp = false
     idleCount = 1
     currentFrame = 1
   end
-  if love.keyboard.isDown("left") then
+  if love.keyboard.isDown("left", "a") then
     p1.x = p1.x - 300 * dt
     showHelp = false
     idleCount = 1
     currentFrame = 1
   end
-  if love.keyboard.isDown("down") then
+  if love.keyboard.isDown("down", "s") then
     p1.y = p1.y + 300 * dt
     showHelp = false
     idleCount = 1
     currentFrame = 1
   end
-  if love.keyboard.isDown("up") then
+  if love.keyboard.isDown("up", "w") then
     p1.y = p1.y - 300 *dt
     showHelp = false
     idleCount = 1
@@ -78,12 +88,9 @@ function love.draw()
     love.graphics.setColor(1, 1, 1)
     love.graphics.print("Arrow keys to move.", 300, 50)
   end
-  love.graphics.draw(p2.image, p2.x ,p2.y)
-  if idleCount >= 4 then
-    love.graphics.draw(p1_idleFrames[math.floor(currentFrame)], p1.x, p1.y)
-  else
-    love.graphics.draw(p1.image, p1.x, p1.y)
-  end  
+  p2:draw()
+  p1:draw()
+  
   if checkCollision(p1, p2) == true then
     love.graphics.setColor(1, 1, 1)
     love.graphics.print("COLLISION DETECTED", 100, 50)
