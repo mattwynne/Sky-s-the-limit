@@ -1,18 +1,19 @@
 function love.load()
+  currentFrame = 1
+  showHelp = true
   tilemap = {
-    {1, 0, 0, 1, 0, 0, 1, 0, 0, 1},
-    {0, 1, 0, 0, 1, 0, 0, 1, 0, 0},
-    {0, 0, 1, 0, 0, 1, 0, 0, 1, 0}  
+    {1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+    {1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 1, 0, 1, 0, 0},
+    {1, 1, 1, 1, 1, 1, 0, 1, 1, 0}  
   }
+  
   idleCount = 1
   p1_idleFrames = {}
   
   for i = 1, 11 do
     table.insert(p1_idleFrames, love.graphics.newImage("Sprites/Animations/p1_idle_Frame" .. i .. ".png"))
   end
-
-  currentFrame = 1
-  showHelp = true
   
   p2 = {
     image = love.graphics.newImage('sprites/P2_Left.png'),
@@ -33,6 +34,18 @@ function love.load()
       else
         love.graphics.draw(self.image, self.x, self.y)
       end
+    end,
+    moveRight = function(self, dt)
+      self.x = self.x + 300 * dt
+    end,
+    moveLeft = function(self, dt)
+      self.x = self.x - 300 * dt
+    end,
+    moveDown = function(self, dt)
+      self.y = self.y + 300 * dt
+    end,
+    moveUp = function(self, dt)
+      self.y = self.y - 300 * dt
     end
   }
 end
@@ -49,25 +62,25 @@ function love.update(dt)
   end
   LuaReload.Monitor()
   if love.keyboard.isDown("right", "d") then
-    p1.x = p1.x + 300 * dt
+    p1:moveRight(dt)
     showHelp = false
     idleCount = 1
     currentFrame = 1
   end
   if love.keyboard.isDown("left", "a") then
-    p1.x = p1.x - 300 * dt
+    p1:moveLeft(dt)
     showHelp = false
     idleCount = 1
     currentFrame = 1
   end
   if love.keyboard.isDown("down", "s") then
-    p1.y = p1.y + 300 * dt
+    p1:moveDown(dt)
     showHelp = false
     idleCount = 1
     currentFrame = 1
   end
   if love.keyboard.isDown("up", "w") then
-    p1.y = p1.y - 300 *dt
+    p1:moveUp(dt)
     showHelp = false
     idleCount = 1
     currentFrame = 1
@@ -86,7 +99,7 @@ function love.draw()
     local font = love.graphics.newFont("Courier New.ttf", 30)
     love.graphics.setFont(font)
     love.graphics.setColor(1, 1, 1)
-    love.graphics.print("Arrow keys to move.", 300, 50)
+    love.graphics.print("Arrow keys or WASD to move.", 300, 50)
   end
   p2:draw()
   p1:draw()
