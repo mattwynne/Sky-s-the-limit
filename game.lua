@@ -1,4 +1,9 @@
 function love.load()
+  tilemap = {
+    {1, 0, 0, 1, 0, 0, 1, 0, 0, 1},
+    {0, 1, 0, 0, 1, 0, 0, 1, 0, 0},
+    {0, 0, 1, 0, 0, 1, 0, 0, 1, 0}  
+  }
   idleCount = 1
   p1_idleFrames = {}
   
@@ -29,6 +34,7 @@ function love.update(dt)
     if currentFrame >= 11 then
       currentFrame = 1
       idleCount = 1
+      currentFrame = 1
     end
   end
   LuaReload.Monitor()
@@ -36,25 +42,36 @@ function love.update(dt)
     p1.x = p1.x + 300 * dt
     showHelp = false
     idleCount = 1
+    currentFrame = 1
   end
   if love.keyboard.isDown("left") then
     p1.x = p1.x - 300 * dt
     showHelp = false
     idleCount = 1
+    currentFrame = 1
   end
   if love.keyboard.isDown("down") then
     p1.y = p1.y + 300 * dt
     showHelp = false
     idleCount = 1
+    currentFrame = 1
   end
   if love.keyboard.isDown("up") then
     p1.y = p1.y - 300 *dt
     showHelp = false
     idleCount = 1
+    currentFrame = 1
   end
 end
   
-function love.draw() 
+function love.draw()
+  for row=1,#tilemap do
+    for col=1,#tilemap[row] do
+      if tilemap[row][col] ==1 then
+        love.graphics.rectangle("line", col * 25, row * 25, 25, 25)
+      end
+    end
+  end      
   if showHelp then
     local font = love.graphics.newFont("Courier New.ttf", 30)
     love.graphics.setFont(font)
