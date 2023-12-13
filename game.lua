@@ -100,11 +100,11 @@ function love.update(dt)
 end
   
 function love.draw()
-  tileSize = tile:getWidth()
+  tileSize = tile:getWidth() * imageScale
   for row=1,#tilemap do
     for col=1,#tilemap[row] do
       if tilemap[row][col] ==1 then
-        love.graphics.draw(tile, (col -1) * tileSize, (row -1) * tileSize)
+        love.graphics.draw(tile, (col -1) * tileSize, (row -1) * tileSize, 0, imageScale, imageScale)
       end
     end
   end      
