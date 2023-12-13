@@ -1,13 +1,25 @@
 function love.load()
+  love.graphics.setDefaultFilter("nearest", "nearest")
+  imageScale = 5.5
   currentFrame = 1
   showHelp = true
+  tile = love.graphics.newImage("Sprites/Tiles/Tile1.png")
+
   tilemap = {
-    {1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-    {1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 1, 0, 1, 0, 0},
-    {1, 1, 1, 1, 1, 1, 0, 1, 1, 0}  
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0},
+    {0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0},
+    {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1},  
+    {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1},  
+    {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1},  
+    {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1},  
+    {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1},  
   }
-  
+
   idleCount = 1
   p1_idleFrames = {}
   
@@ -20,19 +32,19 @@ function love.load()
     x = 350,
     y = 50,
     draw = function(self)
-      love.graphics.draw(self.image, self.x, self.y)
+      love.graphics.draw(self.image, self.x, self.y, 0, imageScale, imageScale)
     end  
   }
 
   p1 = {
     image = love.graphics.newImage('sprites/P1_Right.png'),
     x = 100,
-    y = 50,
+    y = 368,
     draw = function(self)
       if idleCount >= 4 then
-        love.graphics.draw(p1_idleFrames[math.floor(currentFrame)], p1.x, p1.y)
+        love.graphics.draw(p1_idleFrames[math.floor(currentFrame)], p1.x, p1.y, 0, imageScale, imageScale)
       else
-        love.graphics.draw(self.image, self.x, self.y)
+        love.graphics.draw(self.image, self.x, self.y, 0, imageScale, imageScale)
       end
     end,
     moveRight = function(self, dt)
@@ -88,10 +100,11 @@ function love.update(dt)
 end
   
 function love.draw()
+  tileSize = tile:getWidth()
   for row=1,#tilemap do
     for col=1,#tilemap[row] do
       if tilemap[row][col] ==1 then
-        love.graphics.rectangle("line", col * 25, row * 25, 25, 25)
+        love.graphics.draw(tile, (col -1) * tileSize, (row -1) * tileSize)
       end
     end
   end      
@@ -129,4 +142,4 @@ function checkCollision(p1, p2)
   else
       return false
   end  
-end
+end 
