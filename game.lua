@@ -1,5 +1,7 @@
 function love.load()
   love.graphics.setDefaultFilter("nearest", "nearest")
+  require "Characters"
+  player1 = Player1()
   imageScale = 5.5
   currentFrame = 1
   showHelp = true
@@ -35,34 +37,10 @@ function love.load()
       love.graphics.draw(self.image, self.x, self.y, 0, imageScale, imageScale)
     end  
   }
-
-  p1 = {
-    image = love.graphics.newImage('sprites/P1_Right.png'),
-    x = 100,
-    y = 368,
-    draw = function(self)
-      if idleCount >= 4 then
-        love.graphics.draw(p1_idleFrames[math.floor(currentFrame)], p1.x, p1.y, 0, imageScale, imageScale)
-      else
-        love.graphics.draw(self.image, self.x, self.y, 0, imageScale, imageScale)
-      end
-    end,
-    moveRight = function(self, dt)
-      self.x = self.x + 300 * dt
-    end,
-    moveLeft = function(self, dt)
-      self.x = self.x - 300 * dt
-    end,
-    moveDown = function(self, dt)
-      self.y = self.y + 300 * dt
-    end,
-    moveUp = function(self, dt)
-      self.y = self.y - 300 * dt
-    end
-  }
 end
 
 function love.update(dt)
+  player1:update(dt)
   idleCount = idleCount + dt
   if idleCount >= 4 then
     currentFrame = currentFrame + dt * 5
@@ -74,25 +52,11 @@ function love.update(dt)
   end
   LuaReload.Monitor()
   if love.keyboard.isDown("right", "d") then
-    p1:moveRight(dt)
     showHelp = false
     idleCount = 1
     currentFrame = 1
   end
   if love.keyboard.isDown("left", "a") then
-    p1:moveLeft(dt)
-    showHelp = false
-    idleCount = 1
-    currentFrame = 1
-  end
-  if love.keyboard.isDown("down", "s") then
-    p1:moveDown(dt)
-    showHelp = false
-    idleCount = 1
-    currentFrame = 1
-  end
-  if love.keyboard.isDown("up", "w") then
-    p1:moveUp(dt)
     showHelp = false
     idleCount = 1
     currentFrame = 1
@@ -107,15 +71,15 @@ function love.draw()
         love.graphics.draw(tile, (col -1) * tileSize, (row -1) * tileSize, 0, imageScale, imageScale)
       end
     end
-  end      
+  end
+  player1:draw()
   if showHelp then
-    local font = love.graphics.newFont("Courier New.ttf", 30)
+    local font = love.graphics.newFont("Code/Courier New.ttf", 30)
     love.graphics.setFont(font)
     love.graphics.setColor(1, 1, 1)
     love.graphics.print("Arrow keys or WASD to move.", 300, 50)
   end
   p2:draw()
-  p1:draw()
   
   if checkCollision(p1, p2) == true then
     love.graphics.setColor(1, 1, 1)
@@ -124,10 +88,10 @@ function love.draw()
 end
 
 function checkCollision(p1, p2)
-  local p1_left = p1.x
-  local p1_right = p1.x + p1.image:getWidth()
-  local p1_top = p1.y
-  local p1_bottom = p1.y + p1.image:getHeight()
+  local p1_left = player1.x
+  local p1_right = player1.x + player1.image:getWidth()
+  local p1_top = player1.y
+  local p1_bottom = player1.y + player1.image:getHeight()
 
   local p2_left = p2.x
   local p2_right = p2.x + p2.image:getWidth()

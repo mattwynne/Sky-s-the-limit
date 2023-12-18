@@ -1,0 +1,1 @@
+require "Characters/Player1"
