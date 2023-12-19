@@ -41,26 +41,7 @@ end
 
 function love.update(dt)
   player1:update(dt)
-  idleCount = idleCount + dt
-  if idleCount >= 4 then
-    currentFrame = currentFrame + dt * 5
-    if currentFrame >= 11 then
-      currentFrame = 1
-      idleCount = 1
-      currentFrame = 1
-    end
-  end
   LuaReload.Monitor()
-  if love.keyboard.isDown("right", "d") then
-    showHelp = false
-    idleCount = 1
-    currentFrame = 1
-  end
-  if love.keyboard.isDown("left", "a") then
-    showHelp = false
-    idleCount = 1
-    currentFrame = 1
-  end
 end
   
 function love.draw()
