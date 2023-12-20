@@ -6,6 +6,11 @@ function Player1:new()
     self.y = 300
     self.idleCount = 1
     self.currentFrame = 1
+    
+    p1_idleFrames = {}
+      for i = 1, 11 do
+      table.insert(p1_idleFrames, love.graphics.newImage("Sprites/Animations/p1_idle_Frame" .. i .. ".png"))
+    end
 end
 
 function Player1:update(dt)
