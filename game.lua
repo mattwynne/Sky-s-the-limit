@@ -39,37 +39,16 @@ function love.draw()
     end
   end
   player1:draw()
+  player2:draw()
   if showHelp then
     local font = love.graphics.newFont("Code/Courier New.ttf", 30)
     love.graphics.setFont(font)
     love.graphics.setColor(1, 1, 1)
     love.graphics.print("Arrow keys or WASD to move.", 300, 50)
   end
-  player2:draw()
-  
-  if checkCollision(p1, player2) == true then
+
+  if player1:hasCollidedWith(player2) then
     love.graphics.setColor(1, 1, 1)
     love.graphics.print("COLLISION DETECTED", 100, 50)
-  end  
-end
-
-function checkCollision(p1, player2)
-  local p1_left = player1.x
-  local p1_right = player1.x + player1.image:getWidth()
-  local p1_top = player1.y
-  local p1_bottom = player1.y + player1.image:getHeight()
-
-  local p2_left = player2.x
-  local p2_right = player2.x + player2.image:getWidth()
-  local p2_top = player2.y
-  local p2_bottom = player2.y + player2.image:getHeight()
-
-  if p1_right > p2_left
-  and p1_left < p2_right
-  and p1_bottom > p2_top
-  and p1_top < p2_bottom then
-      return true
-  else
-      return false
   end  
 end 

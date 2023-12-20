@@ -44,3 +44,22 @@ function Player1:draw()
         love.graphics.draw(self.image, self.x, self.y, 0, imageScale, imageScale)
       end
 end
+
+function Player1:hasCollidedWith(other)
+  local my_left = self.x
+  local my_right = self.x + self.image:getWidth() * imageScale
+  local my_top = self.y
+  local my_bottom = self.y + self.image:getHeight() * imageScale
+
+  local other_left = other.x
+  local other_right = other.x + other.image:getWidth() * imageScale
+  local other_top = other.y
+  local other_bottom = other.y + other.image:getHeight() * imageScale
+
+  return (
+    my_right > other_left
+    and my_left < other_right
+    and my_bottom > other_top
+    and my_top < other_bottom
+  )
+end
