@@ -6,7 +6,6 @@ function love.load()
   player2 = Player2()
 
   imageScale = 5.5
-  showHelp = true
   tile = love.graphics.newImage("Sprites/Tiles/Tile1.png")
 
   tilemap = {
