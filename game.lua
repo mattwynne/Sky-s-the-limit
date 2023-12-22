@@ -1,11 +1,11 @@
 function love.load()
   love.graphics.setDefaultFilter("nearest", "nearest")
   require "Characters"
-  player1 = Player1()
+  help = Help()
+  player1 = Player1(help)
   player2 = Player2()
 
   imageScale = 5.5
-  showHelp = true
   tile = love.graphics.newImage("Sprites/Tiles/Tile1.png")
 
   tilemap = {
@@ -40,12 +40,7 @@ function love.draw()
   end
   player1:draw()
   player2:draw()
-  if showHelp then
-    local font = love.graphics.newFont("Code/Courier New.ttf", 30)
-    love.graphics.setFont(font)
-    love.graphics.setColor(1, 1, 1)
-    love.graphics.print("Arrow keys or WASD to move.", 300, 50)
-  end
+  help:draw()
 
   if player1:hasCollidedWith(player2) then
     love.graphics.setColor(1, 1, 1)
