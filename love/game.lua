@@ -1,6 +1,6 @@
 function love.load()
   love.graphics.setDefaultFilter("nearest", "nearest")
-  require "Characters"
+  require "./Characters"
   help = Help()
   player1 = Player1(help)
   player2 = Player2()
@@ -26,7 +26,6 @@ end
 
 function love.update(dt)
   player1:update(dt)
-  LuaReload.Monitor()
 end
   
 function love.draw()
